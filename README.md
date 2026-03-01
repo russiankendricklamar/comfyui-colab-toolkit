@@ -1,5 +1,13 @@
 # ComfyUI Colab Toolkit
 
+<div align="center">
+
+[![Watch the intro](https://img.youtube.com/vi/SxnjiI-3GsE/maxresdefault.jpg)](https://youtu.be/SxnjiI-3GsE)
+
+*Система активирована.*
+
+</div>
+
 > Генерируй AI-видео и фото БЕСПЛАТНО прямо в браузере — без установки, без мощного компьютера, без программирования
 
 [![GitHub Stars](https://img.shields.io/github/stars/russiankendricklamar/comfyui-colab-toolkit?style=social)](https://github.com/russiankendricklamar/comfyui-colab-toolkit/stargazers)
