@@ -1,0 +1,21 @@
+# Models (too large for git)
+*.safetensors
+*.pth
+*.bin
+*.onnx
+*.ckpt
+
+# ComfyUI runtime
+output/
+temp/
+custom_nodes/
+__pycache__/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.pyc
