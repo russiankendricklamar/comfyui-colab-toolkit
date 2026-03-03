@@ -1,0 +1,170 @@
+{
+  "13": {
+    "class_type": "LoadImagesFromFolderKJ",
+    "inputs": {
+      "folder_path": "/Users/egorgalkin/Documents/ComfyUI/input/refs/portrait",
+      "sort_by": 1024,
+      "start_index": 1024,
+      "max_images": "crop",
+      "batch_size": 1
+    }
+  },
+  "14": {
+    "class_type": "LoadImagesFromFolderKJ",
+    "inputs": {
+      "folder_path": "/Users/egorgalkin/Documents/ComfyUI/input/refs/hall",
+      "sort_by": 1024,
+      "start_index": 1024,
+      "max_images": "crop",
+      "batch_size": 1
+    }
+  },
+  "15": {
+    "class_type": "LoadImagesFromFolderKJ",
+    "inputs": {
+      "folder_path": "/Users/egorgalkin/Documents/ComfyUI/input/refs/street",
+      "sort_by": 1024,
+      "start_index": 1024,
+      "max_images": "crop",
+      "batch_size": 1
+    }
+  },
+  "16": {
+    "class_type": "ImageMaskSwitch",
+    "inputs": {
+      "images1": [
+        "13",
+        0
+      ],
+      "images2_opt": [
+        "14",
+        0
+      ],
+      "images3_opt": [
+        "15",
+        0
+      ]
+    }
+  },
+  "2": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "flux1-dev-fp8.safetensors"
+    }
+  },
+  "3": {
+    "class_type": "CLIPVisionLoader",
+    "inputs": {}
+  },
+  "4": {
+    "class_type": "IPAdapterInsightFaceLoader",
+    "inputs": {}
+  },
+  "5": {
+    "class_type": "IPAdapterModelLoader",
+    "inputs": {}
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        1
+      ],
+      "text": "professional portrait photo of a person, studio lighting, sharp focus, high quality, Instagram aesthetic, 4k, detailed skin texture, natural colors, bokeh background"
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        1
+      ],
+      "text": "blurry, noisy, messy, lowres, jpeg artifacts, distorted, malformed, deformed, ugly, bad quality, oversaturated, underexposed"
+    }
+  },
+  "8": {
+    "class_type": "IPAdapterFaceID",
+    "inputs": {
+      "model": [
+        "2",
+        0
+      ],
+      "ipadapter": [
+        "5",
+        0
+      ],
+      "image": [
+        "16",
+        0
+      ],
+      "clip_vision": [
+        "3",
+        0
+      ],
+      "insightface": [
+        "4",
+        0
+      ]
+    }
+  },
+  "9": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 864,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "10": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "8",
+        0
+      ],
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "7",
+        0
+      ],
+      "latent_image": [
+        "9",
+        0
+      ],
+      "seed": 0,
+      "steps": "randomize",
+      "cfg": 25,
+      "sampler_name": 3.5,
+      "scheduler": "euler",
+      "denoise": "simple"
+    }
+  },
+  "11": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "10",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ]
+    }
+  },
+  "12": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "11",
+        0
+      ],
+      "filename_prefix": "instagram_flux"
+    }
+  }
+}

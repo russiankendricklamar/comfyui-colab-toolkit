@@ -1,0 +1,201 @@
+{
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "",
+      "upload": "image"
+    }
+  },
+  "1": {
+    "class_type": "VHS_LoadVideo",
+    "inputs": {
+      "video": "",
+      "force_rate": 24,
+      "force_size": "Disabled",
+      "custom_width": 832,
+      "custom_height": 480,
+      "frame_load_cap": 481,
+      "skip_first_frames": 0,
+      "select_every_nth": 1,
+      "choose video to upload": "image"
+    }
+  },
+  "3": {
+    "class_type": "PreviewImage",
+    "inputs": {
+      "images": [
+        "2",
+        0
+      ]
+    }
+  },
+  "10": {
+    "class_type": "LoadWanVideoT5TextEncoder",
+    "inputs": {
+      "model_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "dtype": "fp8_e4m3fn",
+      "offload_to": "offload_device",
+      "lowvram": "disabled"
+    }
+  },
+  "11": {
+    "class_type": "WanVideoModelLoader",
+    "inputs": {
+      "block_swap_args": [
+        "14",
+        0
+      ],
+      "extra_model": [
+        "12",
+        0
+      ],
+      "model_name": "Wan2_2-T2V-A14B-LOW_fp8_e4m3fn_scaled_KJ.safetensors",
+      "dtype": "bf16",
+      "quant_type": "fp8_e4m3fn_scaled",
+      "offload_to": "offload_device",
+      "attention_mode": "sdpa",
+      "scheduler": "default"
+    }
+  },
+  "12": {
+    "class_type": "WanVideoVACEModelSelect",
+    "inputs": {}
+  },
+  "13": {
+    "class_type": "WanVideoVAELoader",
+    "inputs": {
+      "model_name": "wan2.2_vae.safetensors",
+      "dtype": "bf16"
+    }
+  },
+  "14": {
+    "class_type": "WanVideoBlockSwap",
+    "inputs": {
+      "blocks_to_swap": 20,
+      "offload_img_enc": false,
+      "offload_clipmodel": false,
+      "offload_txt_enc": false,
+      "double_blocks_to_swap": 5,
+      "single_blocks_to_swap": 1,
+      "offload_all": false
+    }
+  },
+  "20": {
+    "class_type": "WanVideoTextEncode",
+    "inputs": {
+      "t5": [
+        "10",
+        0
+      ],
+      "model_to_offload": [
+        "11",
+        0
+      ],
+      "positive": "A person walking gracefully toward the camera in a city street, smooth cinematic motion, golden hour lighting, shallow depth of field, professional footage, 4K quality",
+      "negative": "Bright tones, overexposed, static, blurred details, subtitles, worst quality, low quality, JPEG compression, ugly, deformed, disfigured, still picture, messy background, three legs, walking backwards",
+      "force_offload": true,
+      "use_cache": false,
+      "encode_on": "gpu"
+    }
+  },
+  "30": {
+    "class_type": "WanVideoVACEStartToEndFrame",
+    "inputs": {
+      "start_image": [
+        "2",
+        0
+      ]
+    }
+  },
+  "31": {
+    "class_type": "WanVideoVACEEncode",
+    "inputs": {
+      "vae": [
+        "13",
+        0
+      ],
+      "input_frames": [
+        "30",
+        0
+      ],
+      "input_masks": [
+        "30",
+        1
+      ]
+    }
+  },
+  "40": {
+    "class_type": "WanVideoContextOptions",
+    "inputs": {
+      "context_mode": "uniform_standard",
+      "context_length": 81,
+      "context_overlap": 4,
+      "context_stride": 16,
+      "freenoise": true,
+      "start_from_ref": false,
+      "pyramid_mode": "pyramid"
+    }
+  },
+  "50": {
+    "class_type": "WanVideoSampler",
+    "inputs": {
+      "model": [
+        "11",
+        0
+      ],
+      "image_embeds": [
+        "31",
+        0
+      ],
+      "text_embeds": [
+        "20",
+        0
+      ],
+      "context_options": [
+        "40",
+        0
+      ],
+      "steps": 20,
+      "cfg": 5.0,
+      "shift": 8.0,
+      "seed": 42,
+      "force_offload": true,
+      "scheduler": "unipc",
+      "start_step": 0,
+      "denoise_strength": 1.0,
+      "force_denoise": false,
+      "noise_type": "comfy",
+      "skip_layer_start": 0,
+      "skip_layer_end": -1,
+      "pag_adaptive": false
+    }
+  },
+  "60": {
+    "class_type": "WanVideoDecode",
+    "inputs": {
+      "vae": [
+        "13",
+        0
+      ],
+      "samples": [
+        "50",
+        0
+      ],
+      "enable_tiling": false,
+      "tile_size_h": 272,
+      "tile_size_w": 272,
+      "tile_stride_h": 144,
+      "tile_stride_w": 128,
+      "decode_mode": "default"
+    }
+  },
+  "61": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "images": [
+        "60",
+        0
+      ]
+    }
+  }
+}

@@ -1,0 +1,472 @@
+{
+  "460": {
+    "class_type": "CLIPLoader",
+    "inputs": {}
+  },
+  "502": {
+    "class_type": "mxSlider",
+    "inputs": {}
+  },
+  "423": {
+    "class_type": "easy cleanGpuUsed",
+    "inputs": {
+      "anything": [
+        "469",
+        0
+      ]
+    }
+  },
+  "518": {
+    "class_type": "easy clearCacheAll",
+    "inputs": {
+      "anything": [
+        "423",
+        0
+      ]
+    }
+  },
+  "525": {
+    "class_type": "WidgetToString",
+    "inputs": {
+      "any_input": [
+        "539",
+        0
+      ]
+    }
+  },
+  "408": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {}
+  },
+  "409": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {}
+  },
+  "515": {
+    "class_type": "Image Comparer (rgthree)",
+    "inputs": {
+      "image_a": [
+        "469",
+        0
+      ],
+      "image_b": [
+        "516",
+        0
+      ]
+    }
+  },
+  "528": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "021706_OG_00001.png",
+      "upload": "image"
+    }
+  },
+  "462": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "460",
+        0
+      ],
+      "text": [
+        "408",
+        0
+      ]
+    }
+  },
+  "384": {
+    "class_type": "UpscaleModelLoader",
+    "inputs": {}
+  },
+  "521": {
+    "class_type": "WidgetToString",
+    "inputs": {
+      "any_input": [
+        "535",
+        0
+      ]
+    }
+  },
+  "520": {
+    "class_type": "WidgetToString",
+    "inputs": {
+      "any_input": [
+        "534",
+        0
+      ]
+    }
+  },
+  "470": {
+    "class_type": "easy convertAnything",
+    "inputs": {
+      "*": [
+        "497",
+        0
+      ]
+    }
+  },
+  "497": {
+    "class_type": "WidgetToString",
+    "inputs": {
+      "any_input": [
+        "73",
+        0
+      ]
+    }
+  },
+  "537": {
+    "class_type": "easy convertAnything",
+    "inputs": {
+      "*": [
+        "536",
+        0
+      ]
+    }
+  },
+  "535": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "model": [
+        "501",
+        0
+      ]
+    }
+  },
+  "85": {
+    "class_type": "mxSlider",
+    "inputs": {}
+  },
+  "534": {
+    "class_type": "KSamplerSelect",
+    "inputs": {}
+  },
+  "73": {
+    "class_type": "RandomNoise",
+    "inputs": {}
+  },
+  "421": {
+    "class_type": "mxSlider",
+    "inputs": {}
+  },
+  "493": {
+    "class_type": "PatchModelPatcherOrder",
+    "inputs": {
+      "model": [
+        "471",
+        0
+      ]
+    }
+  },
+  "529": {
+    "class_type": "ImageResizeKJv2",
+    "inputs": {
+      "image": [
+        "528",
+        0
+      ],
+      "width": [
+        "83",
+        0
+      ],
+      "height": [
+        "83",
+        1
+      ]
+    }
+  },
+  "533": {
+    "class_type": "CFGGuider",
+    "inputs": {
+      "model": [
+        "501",
+        0
+      ],
+      "positive": [
+        "462",
+        0
+      ],
+      "negative": [
+        "463",
+        0
+      ],
+      "cfg": [
+        "85",
+        0
+      ]
+    }
+  },
+  "530": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "529",
+        0
+      ],
+      "vae": [
+        "461",
+        0
+      ]
+    }
+  },
+  "532": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "73",
+        0
+      ],
+      "guider": [
+        "533",
+        0
+      ],
+      "sampler": [
+        "534",
+        0
+      ],
+      "sigmas": [
+        "535",
+        0
+      ],
+      "latent_image": [
+        "530",
+        0
+      ]
+    }
+  },
+  "526": {
+    "class_type": "Image Saver",
+    "inputs": {
+      "images": [
+        "469",
+        0
+      ],
+      "steps": [
+        "537",
+        0
+      ],
+      "cfg": [
+        "85",
+        0
+      ],
+      "modelname": [
+        "525",
+        0
+      ],
+      "sampler_name": [
+        "520",
+        0
+      ],
+      "scheduler_name": [
+        "521",
+        0
+      ],
+      "positive": [
+        "408",
+        0
+      ],
+      "negative": [
+        "409",
+        0
+      ],
+      "seed_value": [
+        "470",
+        0
+      ],
+      "width": [
+        "83",
+        0
+      ],
+      "height": [
+        "83",
+        1
+      ]
+    }
+  },
+  "527": {
+    "class_type": "Image Saver",
+    "inputs": {
+      "images": [
+        "516",
+        0
+      ],
+      "steps": [
+        "537",
+        0
+      ],
+      "cfg": [
+        "85",
+        0
+      ],
+      "modelname": [
+        "525",
+        0
+      ],
+      "sampler_name": [
+        "520",
+        0
+      ],
+      "scheduler_name": [
+        "521",
+        0
+      ],
+      "seed_value": [
+        "470",
+        0
+      ],
+      "width": [
+        "83",
+        0
+      ],
+      "height": [
+        "83",
+        1
+      ]
+    }
+  },
+  "469": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "532",
+        0
+      ],
+      "vae": [
+        "461",
+        0
+      ]
+    }
+  },
+  "536": {
+    "class_type": "WidgetToString",
+    "inputs": {
+      "any_input": [
+        "535",
+        0
+      ]
+    }
+  },
+  "494": {
+    "class_type": "TorchCompileModelWanVideo",
+    "inputs": {
+      "model": [
+        "493",
+        0
+      ]
+    }
+  },
+  "463": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "460",
+        0
+      ],
+      "text": [
+        "409",
+        0
+      ]
+    }
+  },
+  "415": {
+    "class_type": "Fast Groups Bypasser (rgthree)",
+    "inputs": {}
+  },
+  "503": {
+    "class_type": "MathExpression|pysssss",
+    "inputs": {
+      "a": [
+        "502",
+        0
+      ]
+    }
+  },
+  "501": {
+    "class_type": "wanBlockSwap",
+    "inputs": {
+      "model": [
+        "538",
+        0
+      ],
+      "blocks_to_swap": [
+        "503",
+        0
+      ]
+    }
+  },
+  "538": {
+    "class_type": "WanVideoNAG",
+    "inputs": {
+      "model": [
+        "494",
+        0
+      ],
+      "conditioning": [
+        "463",
+        0
+      ]
+    }
+  },
+  "83": {
+    "class_type": "mxSlider2D",
+    "inputs": {}
+  },
+  "461": {
+    "class_type": "VAELoader",
+    "inputs": {}
+  },
+  "539": {
+    "class_type": "UNETLoader",
+    "inputs": {}
+  },
+  "516": {
+    "class_type": "UltimateSDUpscale",
+    "inputs": {
+      "image": [
+        "518",
+        0
+      ],
+      "model": [
+        "501",
+        0
+      ],
+      "positive": [
+        "462",
+        0
+      ],
+      "negative": [
+        "463",
+        0
+      ],
+      "vae": [
+        "461",
+        0
+      ],
+      "upscale_model": [
+        "384",
+        0
+      ],
+      "upscale_by": [
+        "421",
+        0
+      ]
+    }
+  },
+  "471": {
+    "class_type": "Power Lora Loader (rgthree)",
+    "inputs": {
+      "model": [
+        "539",
+        0
+      ],
+      "clip": [
+        "460",
+        0
+      ]
+    }
+  },
+  "436": {
+    "class_type": "Fast Groups Muter (rgthree)",
+    "inputs": {}
+  }
+}

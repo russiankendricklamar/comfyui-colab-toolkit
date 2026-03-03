@@ -1,0 +1,148 @@
+{
+  "1": {
+    "class_type": "VHS_LoadVideo",
+    "inputs": {
+      "video": "",
+      "force_rate": 24,
+      "force_size": "Disabled",
+      "custom_width": 608,
+      "custom_height": 1080,
+      "frame_load_cap": 81,
+      "skip_first_frames": 0,
+      "select_every_nth": 1,
+      "choose video to upload": "image"
+    }
+  },
+  "2": {
+    "class_type": "LoadWanVideoT5TextEncoder",
+    "inputs": {
+      "model_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "dtype": "fp8_e4m3fn",
+      "offload_to": "offload_device",
+      "lowvram": "disabled"
+    }
+  },
+  "3": {
+    "class_type": "WanVideoModelLoader",
+    "inputs": {
+      "vace_model": [
+        "4",
+        0
+      ],
+      "model_name": "Wan2_2-T2V-A14B-LOW_fp8_e4m3fn_scaled_KJ.safetensors",
+      "dtype": "fp8_e4m3fn",
+      "quant_type": "disabled",
+      "offload_to": "offload_device",
+      "attention_mode": "sdpa"
+    }
+  },
+  "4": {
+    "class_type": "WanVideoVACEModelSelect",
+    "inputs": {}
+  },
+  "5": {
+    "class_type": "WanVideoVAELoader",
+    "inputs": {
+      "model_name": "wan2.2_vae.safetensors",
+      "dtype": "bf16"
+    }
+  },
+  "6": {
+    "class_type": "WanVideoTextEncode",
+    "inputs": {
+      "t5": [
+        "2",
+        0
+      ],
+      "model_to_offload": [
+        "3",
+        0
+      ],
+      "positive": "A person walking gracefully toward the camera, smooth cinematic motion, soft natural lighting, shallow depth of field, vertical video, 4K quality, professional Reels footage",
+      "negative": "Bright tones, overexposed, static, blurred details, subtitles, worst quality, low quality, JPEG compression, ugly, deformed, disfigured, still picture, messy background",
+      "force_offload": true,
+      "use_cache": false,
+      "encode_on": "gpu"
+    }
+  },
+  "7": {
+    "class_type": "WanVideoVACEEncode",
+    "inputs": {
+      "vae": [
+        "5",
+        0
+      ],
+      "input_frames": [
+        "1",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "WanVideoSampler",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "image_embeds": [
+        "7",
+        0
+      ],
+      "text_embeds": [
+        "6",
+        0
+      ],
+      "steps": 20,
+      "cfg": 5,
+      "shift": 8,
+      "seed": 42,
+      "force_offload": "randomize",
+      "scheduler": true,
+      "start_step": "flowmatch",
+      "denoise_strength": 0,
+      "force_denoise": 1,
+      "noise_type": "",
+      "skip_layer_start": "comfy",
+      "skip_layer_end": 0,
+      "pag_adaptive": -1
+    }
+  },
+  "9": {
+    "class_type": "WanVideoDecode",
+    "inputs": {
+      "vae": [
+        "5",
+        0
+      ],
+      "samples": [
+        "8",
+        0
+      ],
+      "enable_tiling": false,
+      "tile_size_h": 272,
+      "tile_size_w": 272,
+      "tile_stride_h": 144,
+      "tile_stride_w": 128,
+      "decode_mode": "default"
+    }
+  },
+  "10": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "images": [
+        "9",
+        0
+      ]
+    }
+  },
+  "11": {
+    "class_type": "PreviewImage",
+    "inputs": {
+      "images": [
+        "1",
+        0
+      ]
+    }
+  }
+}

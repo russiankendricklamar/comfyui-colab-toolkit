@@ -1,0 +1,72 @@
+{
+  "1": {
+    "class_type": "DownloadAndLoadCogVideoModel",
+    "inputs": {
+      "model": "THUDM/CogVideoX-5b",
+      "precision": "fp8_e4m3fn",
+      "fp8_fastmode": false,
+      "load_device": "disabled",
+      "attention_mode": "sdpa",
+      "compile": false
+    }
+  },
+  "2": {
+    "class_type": "CogVideoTextEncode",
+    "inputs": {
+      "cogvideo_pipe": [
+        "1",
+        0
+      ],
+      "prompt": "A serene lake at sunset, mountains in the background, gentle ripples on the water surface, warm golden light reflecting off the water, birds flying in the distance, cinematic quality, smooth camera pan",
+      "negative_prompt": "blurry, low quality, distorted, watermark, text, ugly, worst quality",
+      "force_offload": true
+    }
+  },
+  "3": {
+    "class_type": "CogVideoSampler",
+    "inputs": {
+      "cogvideo_pipe": [
+        "1",
+        0
+      ],
+      "positive": [
+        "2",
+        0
+      ],
+      "negative": [
+        "2",
+        1
+      ],
+      "width": 720,
+      "height": 480,
+      "num_frames": 49,
+      "steps": 30,
+      "cfg": 6,
+      "seed": 42,
+      "scheduler": "randomize",
+      "denoise_strength": "DPM"
+    }
+  },
+  "4": {
+    "class_type": "CogVideoDecode",
+    "inputs": {
+      "cogvideo_pipe": [
+        "1",
+        0
+      ],
+      "samples": [
+        "3",
+        1
+      ]
+    }
+  },
+  "5": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "images": [
+        "4",
+        0
+      ]
+    }
+  }
+}

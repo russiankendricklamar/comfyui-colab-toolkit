@@ -1,0 +1,24 @@
+# Маппинг Network Volume -> ComfyUI
+# Используется при наличии /runpod-volume/models/
+# Позволяет хранить модели на Network Volume (~20ГБ) и переиспользовать между Pod'ами
+#
+# Структура тома:
+#   /runpod-volume/
+#     models/
+#       diffusion_models/   — основные модели (Wan2.2, Flux, etc.)
+#       text_encoders/      — текстовые энкодеры (UMT5, CLIP)
+#       vae/                — VAE декодеры
+#       upscale_models/     — апскейлеры (RealESRGAN)
+#       clip/               — CLIP модели
+#       clip_vision/        — CLIP Vision (для IPAdapter)
+#       loras/              — LoRA адаптеры
+
+runpod_volume:
+    base_path: /runpod-volume
+    diffusion_models: models/diffusion_models/
+    text_encoders: models/text_encoders/
+    vae: models/vae/
+    upscale_models: models/upscale_models/
+    clip: models/clip/
+    clip_vision: models/clip_vision/
+    loras: models/loras/
