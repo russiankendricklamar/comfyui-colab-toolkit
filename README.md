@@ -6,8 +6,6 @@
 
 </div>
 
-> Генерируй AI-видео и фото БЕСПЛАТНО прямо в браузере — без установки, без мощного компьютера, без программирования
-
 [![GitHub Stars](https://img.shields.io/github/stars/russiankendricklamar/comfyui-colab-toolkit?style=social)](https://github.com/russiankendricklamar/comfyui-colab-toolkit/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/russiankendricklamar/comfyui-colab-toolkit/blob/main/notebooks/colab_long_video_setup.ipynb)
