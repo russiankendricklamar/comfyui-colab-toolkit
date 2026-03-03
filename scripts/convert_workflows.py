@@ -130,6 +130,24 @@ WIDGET_MAPPINGS = {
     "mxSlider": ["Xi", "Xf", "isfloatX"],
     "mxSlider2D": ["Xi", "Xf", "Yi", "Yf", "isfloatX", "isfloatY"],
 
+    # === ControlNet ===
+    "ControlNetLoader": ["control_net_name"],
+    "ControlNetApplyAdvanced": ["strength", "start_percent", "end_percent"],
+    "AIO_Preprocessor": ["preprocessor", "resolution"],
+
+    # === Face Restore (Impact-Pack) ===
+    "UltralyticsDetectorProvider": ["model_name"],
+    # FaceDetailer: widgets = [guide_size, guide_size_for, max_size, seed, control_after_generate, ...]
+    "FaceDetailer": [
+        "guide_size", "guide_size_for", "max_size", "seed", None,
+        "steps", "cfg", "sampler_name", "scheduler", "denoise",
+        "feather", "noise_mask", "force_inpaint",
+        "bbox_threshold", "bbox_dilation", "bbox_crop_factor",
+        "sam_detection_hint", "sam_dilation", "sam_threshold",
+        "sam_bbox_expansion", "sam_mask_hint_threshold",
+        "sam_mask_hint_use_negative", "drop_size", "wildcard", "cycle",
+    ],
+
     # === Upscale ===
     # UltimateSDUpscale: widgets = [upscale_by, seed, control_after_generate, steps, ...]
     "UltimateSDUpscale": [

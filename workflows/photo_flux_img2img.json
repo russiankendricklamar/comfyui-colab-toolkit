@@ -1,6 +1,6 @@
 {
-  "last_node_id": 12,
-  "last_link_id": 13,
+  "last_node_id": 24,
+  "last_link_id": 30,
   "nodes": [
     {
       "id": 1,
@@ -15,19 +15,19 @@
         {
           "name": "MODEL",
           "type": "MODEL",
-          "links": [1],
+          "links": [1, 24],
           "slot_index": 0
         },
         {
           "name": "CLIP",
           "type": "CLIP",
-          "links": [5, 6],
+          "links": [5, 6, 25],
           "slot_index": 1
         },
         {
           "name": "VAE",
           "type": "VAE",
-          "links": [9, 12],
+          "links": [9, 12, 26],
           "slot_index": 2
         }
       ],
@@ -100,7 +100,7 @@
         {
           "name": "IMAGE",
           "type": "IMAGE",
-          "links": [4, 10],
+          "links": [4, 10, 16],
           "slot_index": 0
         },
         {
@@ -122,12 +122,39 @@
       "bgcolor": "#355"
     },
     {
+      "id": 20,
+      "type": "ControlNetLoader",
+      "pos": [50, 870],
+      "size": [315, 58],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [17],
+          "slot_index": 0
+        }
+      ],
+      "title": "ControlNet (Depth)",
+      "properties": {
+        "Node name for S&R": "ControlNetLoader"
+      },
+      "widgets_values": [
+        "flux-dev-controlnet-depth.safetensors"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
       "id": 5,
       "type": "IPAdapterAdvanced",
       "pos": [500, 50],
       "size": [315, 330],
       "flags": {},
-      "order": 6,
+      "order": 7,
       "mode": 0,
       "inputs": [
         {
@@ -191,7 +218,7 @@
       "pos": [500, 440],
       "size": [400, 200],
       "flags": {},
-      "order": 7,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -204,7 +231,7 @@
         {
           "name": "CONDITIONING",
           "type": "CONDITIONING",
-          "links": [8],
+          "links": [19, 27],
           "slot_index": 0
         }
       ],
@@ -222,7 +249,7 @@
       "pos": [500, 700],
       "size": [400, 200],
       "flags": {},
-      "order": 8,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
@@ -235,7 +262,7 @@
         {
           "name": "CONDITIONING",
           "type": "CONDITIONING",
-          "links": [11],
+          "links": [20, 28],
           "slot_index": 0
         }
       ],
@@ -253,7 +280,7 @@
       "pos": [500, 960],
       "size": [210, 46],
       "flags": {},
-      "order": 5,
+      "order": 6,
       "mode": 0,
       "inputs": [
         {
@@ -280,12 +307,108 @@
       }
     },
     {
+      "id": 21,
+      "type": "AIO_Preprocessor",
+      "pos": [450, 1060],
+      "size": [315, 82],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [18],
+          "slot_index": 0
+        }
+      ],
+      "title": "Depth Preprocessor",
+      "properties": {
+        "Node name for S&R": "AIO_Preprocessor"
+      },
+      "widgets_values": [
+        "DepthAnythingV2Preprocessor",
+        1024
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 22,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [750, 500],
+      "size": [315, 186],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 19
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 20
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 17
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 18
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [21],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [22],
+          "slot_index": 1
+        }
+      ],
+      "title": "ControlNet Apply (Depth)",
+      "properties": {
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        0.4,
+        0.0,
+        0.6
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
       "id": 9,
       "type": "KSampler",
-      "pos": [1000, 50],
+      "pos": [1150, 50],
       "size": [315, 262],
       "flags": {},
-      "order": 9,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
@@ -296,12 +419,12 @@
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 8
+          "link": 21
         },
         {
           "name": "negative",
           "type": "CONDITIONING",
-          "link": 11
+          "link": 22
         },
         {
           "name": "latent_image",
@@ -333,10 +456,10 @@
     {
       "id": 10,
       "type": "VAEDecode",
-      "pos": [1400, 50],
+      "pos": [1550, 50],
       "size": [210, 46],
       "flags": {},
-      "order": 10,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
@@ -354,7 +477,7 @@
         {
           "name": "IMAGE",
           "type": "IMAGE",
-          "links": [15],
+          "links": [23],
           "slot_index": 0
         }
       ],
@@ -363,18 +486,186 @@
       }
     },
     {
+      "id": 23,
+      "type": "UltralyticsDetectorProvider",
+      "pos": [1550, 200],
+      "size": [315, 58],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "BBOX_DETECTOR",
+          "type": "BBOX_DETECTOR",
+          "links": [29],
+          "slot_index": 0
+        },
+        {
+          "name": "SEGM_DETECTOR",
+          "type": "SEGM_DETECTOR",
+          "links": null,
+          "slot_index": 1
+        }
+      ],
+      "title": "Face Detector",
+      "properties": {
+        "Node name for S&R": "UltralyticsDetectorProvider"
+      },
+      "widgets_values": [
+        "face_yolov8m.pt"
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 24,
+      "type": "FaceDetailer",
+      "pos": [1950, 50],
+      "size": [315, 800],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 23
+        },
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 24
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 25
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 26
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 27
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 28
+        },
+        {
+          "name": "bbox_detector",
+          "type": "BBOX_DETECTOR",
+          "link": 29
+        },
+        {
+          "name": "sam_model_opt",
+          "type": "SAM_MODEL",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "segm_detector_opt",
+          "type": "SEGM_DETECTOR",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "detailer_hook",
+          "type": "DETAILER_HOOK",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [30],
+          "slot_index": 0
+        },
+        {
+          "name": "cropped_refined",
+          "type": "IMAGE",
+          "links": null,
+          "slot_index": 1
+        },
+        {
+          "name": "cropped_enhanced_alpha",
+          "type": "IMAGE",
+          "links": null,
+          "slot_index": 2
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": null,
+          "slot_index": 3
+        },
+        {
+          "name": "detailer_pipe",
+          "type": "DETAILER_PIPE",
+          "links": null,
+          "slot_index": 4
+        },
+        {
+          "name": "cnet_images",
+          "type": "IMAGE",
+          "links": null,
+          "slot_index": 5
+        }
+      ],
+      "title": "Face Restore",
+      "properties": {
+        "Node name for S&R": "FaceDetailer"
+      },
+      "widgets_values": [
+        384,
+        true,
+        1024,
+        0,
+        "randomize",
+        20,
+        3.5,
+        "euler",
+        "simple",
+        0.4,
+        5,
+        true,
+        true,
+        0.5,
+        10,
+        3.0,
+        "center-1",
+        0,
+        0.93,
+        0,
+        0.7,
+        "False",
+        10,
+        "",
+        1
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
       "id": 11,
       "type": "SaveImage",
-      "pos": [1700, 50],
+      "pos": [2350, 50],
       "size": [530, 580],
       "flags": {},
-      "order": 11,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 15
+          "link": 30
         }
       ],
       "outputs": [],
@@ -394,20 +685,32 @@
     [5, 1, 1, 6, 0, "CLIP"],
     [6, 1, 1, 7, 0, "CLIP"],
     [7, 5, 0, 9, 0, "MODEL"],
-    [8, 6, 0, 9, 1, "CONDITIONING"],
     [9, 1, 2, 8, 1, "VAE"],
     [10, 4, 0, 8, 0, "IMAGE"],
-    [11, 7, 0, 9, 2, "CONDITIONING"],
     [12, 1, 2, 10, 1, "VAE"],
     [13, 8, 0, 9, 3, "LATENT"],
     [14, 9, 0, 10, 0, "LATENT"],
-    [15, 10, 0, 11, 0, "IMAGE"]
+    [16, 4, 0, 21, 0, "IMAGE"],
+    [17, 20, 0, 22, 2, "CONTROL_NET"],
+    [18, 21, 0, 22, 3, "IMAGE"],
+    [19, 6, 0, 22, 0, "CONDITIONING"],
+    [20, 7, 0, 22, 1, "CONDITIONING"],
+    [21, 22, 0, 9, 1, "CONDITIONING"],
+    [22, 22, 1, 9, 2, "CONDITIONING"],
+    [23, 10, 0, 24, 0, "IMAGE"],
+    [24, 1, 0, 24, 1, "MODEL"],
+    [25, 1, 1, 24, 2, "CLIP"],
+    [26, 1, 2, 24, 3, "VAE"],
+    [27, 6, 0, 24, 4, "CONDITIONING"],
+    [28, 7, 0, 24, 5, "CONDITIONING"],
+    [29, 23, 0, 24, 6, "BBOX_DETECTOR"],
+    [30, 24, 0, 11, 0, "IMAGE"]
   ],
   "groups": [
     {
       "id": 1,
       "title": "Model & Reference Loading",
-      "bounding": [20, 10, 430, 830],
+      "bounding": [20, 10, 430, 950],
       "color": "#223",
       "font_size": 24,
       "flags": {}
@@ -415,16 +718,32 @@
     {
       "id": 2,
       "title": "IPAdapter + Prompts",
-      "bounding": [470, 10, 460, 1020],
+      "bounding": [470, 10, 460, 940],
       "color": "#332922",
       "font_size": 24,
       "flags": {}
     },
     {
       "id": 3,
-      "title": "Sampling & Output",
-      "bounding": [970, 10, 1290, 660],
+      "title": "ControlNet (Depth from Reference)",
+      "bounding": [420, 1020, 680, 180],
+      "color": "#232",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "Sampling",
+      "bounding": [1120, 10, 380, 340],
       "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "Face Restore & Output",
+      "bounding": [1520, 10, 1400, 860],
+      "color": "#533",
       "font_size": 24,
       "flags": {}
     }
@@ -432,7 +751,7 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.6,
+      "scale": 0.5,
       "offset": [50, 50]
     }
   },

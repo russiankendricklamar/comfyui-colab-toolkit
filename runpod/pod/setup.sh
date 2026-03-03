@@ -103,9 +103,11 @@ test -d ComfyUI-Frame-Interpolation || git clone https://github.com/Fannovel16/C
 test -d ComfyUI-Impact-Pack        || git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
 # --- Фото (IPAdapter FaceID, style transfer) ---
 test -d ComfyUI_IPAdapter_plus     || git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
+# --- ControlNet (depth/pose matching from reference) ---
+test -d comfyui_controlnet_aux     || git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
 
 # Установка зависимостей для каждой ноды
-ALL_NODES="ComfyUI-WanVideoWrapper ComfyUI-VideoHelperSuite ComfyUI-KJNodes ComfyUI-Frame-Interpolation ComfyUI-Impact-Pack ComfyUI_IPAdapter_plus"
+ALL_NODES="ComfyUI-WanVideoWrapper ComfyUI-VideoHelperSuite ComfyUI-KJNodes ComfyUI-Frame-Interpolation ComfyUI-Impact-Pack ComfyUI_IPAdapter_plus comfyui_controlnet_aux"
 for node_dir in $ALL_NODES; do
     if [ -f "$node_dir/requirements.txt" ]; then
         pip install "numpy<2.0" -r "$node_dir/requirements.txt" -q 2>/dev/null || \
@@ -137,6 +139,8 @@ mkdir -p "$MODELS_DIR/checkpoints"
 mkdir -p "$MODELS_DIR/clip_vision"
 mkdir -p "$MODELS_DIR/ipadapter"
 mkdir -p "$MODELS_DIR/loras/WAN"
+mkdir -p "$MODELS_DIR/controlnet"
+mkdir -p "$MODELS_DIR/ultralytics/bbox"
 
 # Функция для загрузки с проверкой
 download_model() {
@@ -244,6 +248,16 @@ else
     download_model \
         "https://huggingface.co/InstantX/FLUX.1-dev-IP-Adapter/resolve/main/ip-adapter.safetensors" \
         "$MODELS_DIR/ipadapter/ip-adapter_flux.safetensors"
+
+    # ControlNet Depth для Flux (depth matching из референса)
+    download_model \
+        "https://huggingface.co/Shakker-Labs/FLUX.1-dev-ControlNet-Depth/resolve/main/diffusion_pytorch_model.safetensors" \
+        "$MODELS_DIR/controlnet/flux-dev-controlnet-depth.safetensors"
+
+    # Face detection model для FaceDetailer (Impact-Pack)
+    download_model \
+        "https://huggingface.co/Bingsu/adetailer/resolve/main/face_yolov8m.pt" \
+        "$MODELS_DIR/ultralytics/bbox/face_yolov8m.pt"
 fi
 
 # =============================================================================
