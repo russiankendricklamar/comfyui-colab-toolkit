@@ -30,7 +30,9 @@
   },
   "59": {
     "class_type": "CLIPVisionLoader",
-    "inputs": {}
+    "inputs": {
+      "clip_name": "clip_vision_h.safetensors"
+    }
   },
   "106": {
     "class_type": "SetNode",
@@ -217,7 +219,13 @@
       "height": [
         "100",
         0
-      ]
+      ],
+      "upscale_method": "lanczos",
+      "keep_proportion": "crop",
+      "pad_color": "0, 0, 0",
+      "crop_position": "center",
+      "divisible_by": 16,
+      "device": "cpu"
     }
   },
   "113": {
@@ -501,7 +509,13 @@
       "height": [
         "103",
         0
-      ]
+      ],
+      "upscale_method": "lanczos",
+      "keep_proportion": "crop",
+      "pad_color": "0, 0, 0",
+      "crop_position": "center",
+      "divisible_by": 16,
+      "device": "cpu"
     }
   },
   "76": {

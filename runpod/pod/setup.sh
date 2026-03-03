@@ -95,19 +95,26 @@ NODES_DIR="/workspace/ComfyUI/custom_nodes"
 cd "$NODES_DIR"
 
 # Клонирование нод (идемпотентно)
+# --- Видео ---
 test -d ComfyUI-WanVideoWrapper    || git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git
 test -d ComfyUI-VideoHelperSuite   || git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git
 test -d ComfyUI-KJNodes            || git clone https://github.com/kijai/ComfyUI-KJNodes.git
 test -d ComfyUI-Frame-Interpolation || git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git
 test -d ComfyUI-Impact-Pack        || git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
+# --- Фото (IPAdapter FaceID, style transfer) ---
+test -d ComfyUI_IPAdapter_plus     || git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
 
 # Установка зависимостей для каждой ноды
-for node_dir in ComfyUI-WanVideoWrapper ComfyUI-VideoHelperSuite ComfyUI-KJNodes ComfyUI-Frame-Interpolation ComfyUI-Impact-Pack; do
+ALL_NODES="ComfyUI-WanVideoWrapper ComfyUI-VideoHelperSuite ComfyUI-KJNodes ComfyUI-Frame-Interpolation ComfyUI-Impact-Pack ComfyUI_IPAdapter_plus"
+for node_dir in $ALL_NODES; do
     if [ -f "$node_dir/requirements.txt" ]; then
         pip install "numpy<2.0" -r "$node_dir/requirements.txt" -q 2>/dev/null || \
             warn "Не удалось установить зависимости для $node_dir"
     fi
 done
+
+# InsightFace для FaceID (нужен для photo_flux_instagram)
+pip install insightface onnxruntime -q 2>/dev/null || warn "Не удалось установить insightface"
 
 # Скрипт установки Impact Pack
 python ComfyUI-Impact-Pack/install.py 2>/dev/null || true
@@ -126,6 +133,10 @@ mkdir -p "$MODELS_DIR/diffusion_models"
 mkdir -p "$MODELS_DIR/text_encoders"
 mkdir -p "$MODELS_DIR/vae"
 mkdir -p "$MODELS_DIR/upscale_models"
+mkdir -p "$MODELS_DIR/checkpoints"
+mkdir -p "$MODELS_DIR/clip_vision"
+mkdir -p "$MODELS_DIR/ipadapter"
+mkdir -p "$MODELS_DIR/loras/WAN"
 
 # Функция для загрузки с проверкой
 download_model() {
@@ -156,7 +167,7 @@ if [ -d "/runpod-volume/models" ]; then
     # --- Network Volume найден: создаём симлинки ---
     info "Network Volume найден - создаю симлинки..."
 
-    for subdir in diffusion_models text_encoders vae upscale_models; do
+    for subdir in diffusion_models text_encoders vae upscale_models checkpoints clip_vision ipadapter loras; do
         if [ -d "/runpod-volume/models/$subdir" ]; then
             for f in /runpod-volume/models/"$subdir"/*; do
                 [ ! -e "$f" ] && continue
@@ -200,6 +211,39 @@ else
 
     # RIFE загружается автоматически при первом использовании
     info "RIFE модель загрузится автоматически при первом запуске"
+
+    # --- Фото модели (Flux + IPAdapter) ---
+    # Flux Dev fp8 (требует HF_TOKEN)
+    if [ -n "$HF_TOKEN" ]; then
+        info "HF_TOKEN найден, загружаю Flux Dev fp8..."
+        if [ -f "$MODELS_DIR/checkpoints/flux1-dev-fp8.safetensors" ] && \
+           [ "$(stat -c%s "$MODELS_DIR/checkpoints/flux1-dev-fp8.safetensors" 2>/dev/null || stat -f%z "$MODELS_DIR/checkpoints/flux1-dev-fp8.safetensors" 2>/dev/null)" -gt 1024 ]; then
+            info "flux1-dev-fp8.safetensors уже загружен, пропускаю"
+        else
+            wget -q --show-progress \
+                --header="Authorization: Bearer $HF_TOKEN" \
+                -O "$MODELS_DIR/checkpoints/flux1-dev-fp8.safetensors" \
+                "https://huggingface.co/Comfy-Org/flux1-dev/resolve/main/flux1-dev-fp8.safetensors"
+        fi
+    else
+        warn "HF_TOKEN не задан — пропускаю Flux Dev fp8 (нужен для фото-воркфлоу)"
+        warn "Установите: export HF_TOKEN=hf_xxx перед запуском"
+    fi
+
+    # CLIP Vision H14
+    download_model \
+        "https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/resolve/main/open_clip_pytorch_model.safetensors" \
+        "$MODELS_DIR/clip_vision/model.safetensors"
+
+    # IPAdapter FaceID PlusV2 SDXL
+    download_model \
+        "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-plusv2_sdxl.bin" \
+        "$MODELS_DIR/ipadapter/ip-adapter-faceid-plusv2_sdxl.bin"
+
+    # IPAdapter Flux (style transfer)
+    download_model \
+        "https://huggingface.co/InstantX/FLUX.1-dev-IP-Adapter/resolve/main/ip-adapter.safetensors" \
+        "$MODELS_DIR/ipadapter/ip-adapter_flux.safetensors"
 fi
 
 # =============================================================================

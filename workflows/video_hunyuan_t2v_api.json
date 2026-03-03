@@ -1,7 +1,10 @@
 {
   "1": {
     "class_type": "UNETLoader",
-    "inputs": {}
+    "inputs": {
+      "unet_name": "hunyuan_video_v2_replace_fp8_e4m3fn.safetensors",
+      "weight_dtype": "fp8_e4m3fn"
+    }
   },
   "2": {
     "class_type": "DualCLIPLoader",
@@ -9,7 +12,9 @@
   },
   "3": {
     "class_type": "VAELoader",
-    "inputs": {}
+    "inputs": {
+      "vae_name": "hunyuan_video_vae_bf16.safetensors"
+    }
   },
   "4": {
     "class_type": "CLIPTextEncode",
@@ -55,11 +60,11 @@
         0
       ],
       "seed": 0,
-      "steps": "randomize",
-      "cfg": 30,
-      "sampler_name": 6,
-      "scheduler": "euler",
-      "denoise": "simple"
+      "steps": 30,
+      "cfg": 6,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1
     }
   },
   "8": {

@@ -22,3 +22,5 @@ runpod_volume:
     clip: models/clip/
     clip_vision: models/clip_vision/
     loras: models/loras/
+    checkpoints: models/checkpoints/
+    ipadapter: models/ipadapter/

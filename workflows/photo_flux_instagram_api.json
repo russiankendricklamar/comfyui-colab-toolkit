@@ -3,30 +3,36 @@
     "class_type": "LoadImagesFromFolderKJ",
     "inputs": {
       "folder_path": "/Users/egorgalkin/Documents/ComfyUI/input/refs/portrait",
-      "sort_by": 1024,
-      "start_index": 1024,
-      "max_images": "crop",
-      "batch_size": 1
+      "width": 1024,
+      "height": 1024,
+      "resize_method": "crop",
+      "batch_size": 1,
+      "start_index": 0,
+      "load_always": false
     }
   },
   "14": {
     "class_type": "LoadImagesFromFolderKJ",
     "inputs": {
       "folder_path": "/Users/egorgalkin/Documents/ComfyUI/input/refs/hall",
-      "sort_by": 1024,
-      "start_index": 1024,
-      "max_images": "crop",
-      "batch_size": 1
+      "width": 1024,
+      "height": 1024,
+      "resize_method": "crop",
+      "batch_size": 1,
+      "start_index": 0,
+      "load_always": false
     }
   },
   "15": {
     "class_type": "LoadImagesFromFolderKJ",
     "inputs": {
       "folder_path": "/Users/egorgalkin/Documents/ComfyUI/input/refs/street",
-      "sort_by": 1024,
-      "start_index": 1024,
-      "max_images": "crop",
-      "batch_size": 1
+      "width": 1024,
+      "height": 1024,
+      "resize_method": "crop",
+      "batch_size": 1,
+      "start_index": 0,
+      "load_always": false
     }
   },
   "16": {
@@ -43,7 +49,8 @@
       "images3_opt": [
         "15",
         0
-      ]
+      ],
+      "select": 1
     }
   },
   "2": {
@@ -54,15 +61,21 @@
   },
   "3": {
     "class_type": "CLIPVisionLoader",
-    "inputs": {}
+    "inputs": {
+      "clip_name": "model.safetensors"
+    }
   },
   "4": {
     "class_type": "IPAdapterInsightFaceLoader",
-    "inputs": {}
+    "inputs": {
+      "provider": "CPU"
+    }
   },
   "5": {
     "class_type": "IPAdapterModelLoader",
-    "inputs": {}
+    "inputs": {
+      "model_name": "ip-adapter-faceid-plusv2_sdxl.bin"
+    }
   },
   "6": {
     "class_type": "CLIPTextEncode",
@@ -106,7 +119,14 @@
       "insightface": [
         "4",
         0
-      ]
+      ],
+      "weight": 0.75,
+      "weight_v2": 0.75,
+      "weight_type": "linear",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "V only"
     }
   },
   "9": {
@@ -137,11 +157,11 @@
         0
       ],
       "seed": 0,
-      "steps": "randomize",
-      "cfg": 25,
-      "sampler_name": 3.5,
-      "scheduler": "euler",
-      "denoise": "simple"
+      "steps": 25,
+      "cfg": 3.5,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1
     }
   },
   "11": {

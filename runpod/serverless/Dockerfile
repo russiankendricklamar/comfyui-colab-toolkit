@@ -29,7 +29,11 @@ RUN git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git && \
     git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git && \
     git clone https://github.com/kijai/ComfyUI-KJNodes.git && \
     git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git && \
-    git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
+    git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git && \
+    git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
+
+# InsightFace для FaceID (photo workflows)
+RUN pip install insightface onnxruntime -c /tmp/numpy_constraint.txt
 
 # Установка зависимостей каждой ноды (|| true — чтобы сборка не падала
 # из-за опциональных пакетов)
