@@ -236,7 +236,7 @@ else
 
     # CLIP Vision H14
     download_model \
-        "https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/resolve/main/open_clip_pytorch_model.safetensors" \
+        "https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/resolve/main/model.safetensors" \
         "$MODELS_DIR/clip_vision/model.safetensors"
 
     # IPAdapter FaceID PlusV2 SDXL
@@ -246,8 +246,8 @@ else
 
     # IPAdapter Flux (style transfer)
     download_model \
-        "https://huggingface.co/InstantX/FLUX.1-dev-IP-Adapter/resolve/main/ip-adapter.safetensors" \
-        "$MODELS_DIR/ipadapter/ip-adapter_flux.safetensors"
+        "https://huggingface.co/InstantX/FLUX.1-dev-IP-Adapter/resolve/main/ip-adapter.bin" \
+        "$MODELS_DIR/ipadapter/ip-adapter_flux.bin"
 
     # ControlNet Depth для Flux (depth matching из референса)
     download_model \
