@@ -24,7 +24,7 @@
         "Node name for S&R": "UNETLoader"
       },
       "widgets_values": [
-        "hunyuan_video_v2_replace_fp8_e4m3fn.safetensors",
+        "hunyuan_video_t2v_720p_bf16.safetensors",
         "fp8_e4m3fn"
       ],
       "color": "#223",

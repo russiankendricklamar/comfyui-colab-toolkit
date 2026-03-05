@@ -2,13 +2,17 @@
   "1": {
     "class_type": "UNETLoader",
     "inputs": {
-      "unet_name": "hunyuan_video_v2_replace_fp8_e4m3fn.safetensors",
+      "unet_name": "hunyuan_video_t2v_720p_bf16.safetensors",
       "weight_dtype": "fp8_e4m3fn"
     }
   },
   "2": {
     "class_type": "DualCLIPLoader",
-    "inputs": {}
+    "inputs": {
+      "clip_name1": "llava_llama3_fp8_scaled.safetensors",
+      "clip_name2": "clip_l.safetensors",
+      "type": "hunyuan_video"
+    }
   },
   "3": {
     "class_type": "VAELoader",
@@ -38,7 +42,12 @@
   },
   "6": {
     "class_type": "EmptyHunyuanLatentVideo",
-    "inputs": {}
+    "inputs": {
+      "width": 848,
+      "height": 480,
+      "length": 61,
+      "batch_size": 1
+    }
   },
   "7": {
     "class_type": "KSampler",
@@ -86,7 +95,17 @@
       "images": [
         "8",
         0
-      ]
+      ],
+      "frame_rate": 16,
+      "loop_count": 0,
+      "filename_prefix": "hunyuan_t2v",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false,
+      "pingpong": false,
+      "save_output": true
     }
   }
 }
